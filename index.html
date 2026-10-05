@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Powered Internal Tool Demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #0056b3; text-align: center; margin-bottom: 30px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        textarea, select { width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        button { background-color: #007bff; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s ease; }
+        button:hover { background-color: #0056b3; }
+        #output { background-color: #e9ecef; padding: 15px; border-radius: 4px; margin-top: 20px; min-height: 50px; border: 1px solid #ced4da; }
+        .ai-concept { font-style: italic; color: #666; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Destekli İç Araç: Müşteri Geri Bildirim Analizi</h1>
+        <p class="ai-concept">Bu örnek, geliştiricisiz/az kodlu platformlarda yapay zeka entegrasyonunun nasıl görünebileceğini basitçe gösterir. Gerçek bir AI servisi yerine, JavaScript ile temel bir simülasyon kullanılmıştır.</p>
+
+        <label for="feedbackText">Geri Bildirim Metni:</label>
+        <textarea id="feedbackText" rows="8" placeholder="Müşteri geri bildirimini buraya yapıştırın... Örneğin: 'Ürününüz harika, çok memnun kaldım ama teslimat biraz gecikti.'"></textarea>
+
+        <label for="aiTask">AI Görevi Seçin:</label>
+        <select id="aiTask">
+            <option value="sentiment">Duygu Analizi</option>
+            <option value="summary">Özetleme</option>
+            <option value="keywords">Anahtar Kelime Çıkarma</option>
+        </select>
+
+        <button onclick="processFeedback()">Analiz Et</button>
+
+        <h2>Analiz Sonucu:</h2>
+        <div id="output">
+            Analiz sonuçları burada görünecektir.
+        </div>
+    </div>
+
+    <script>
+        function processFeedback() {
+            const feedbackText = document.getElementById('feedbackText').value;
+            const aiTask = document.getElementById('aiTask').value;
+            const outputDiv = document.getElementById('output');
+
+            if (!feedbackText.trim()) {
+                outputDiv.innerHTML = "Lütfen analiz etmek için bir metin girin.";
+                return;
+            }
+
+            outputDiv.innerHTML = "Analiz ediliyor... (Yapay zeka simülasyonu)";
+
+            // Simulate an API call delay to mimic real-world AI processing
+            setTimeout(() => {
+                let result = "";
+                switch (aiTask) {
+                    case 'sentiment':
+                        // AI CONCEPT: Simulate sentiment analysis based on keywords
+                        if (feedbackText.toLowerCase().includes('harika') || feedbackText.toLowerCase().includes('mükemmel') || feedbackText.toLowerCase().includes('çok iyi') || feedbackText.toLowerCase().includes('memnun')) {
+                            result = "Duygu: Olumlu 😊";
+                        } else if (feedbackText.toLowerCase().includes('kötü') || feedbackText.toLowerCase().includes('sorun') || feedbackText.toLowerCase().includes('beğenmedim') || feedbackText.toLowerCase().includes('şikayet')) {
+                            result = "Duygu: Olumsuz 😞";
+                        } else {
+                            result = "Duygu: Nötr 😐";
+                        }
+                        break;
+                    case 'summary':
+                        // AI CONCEPT: Simulate text summarization by taking initial sentences
+                        const sentences = feedbackText.split(/[.!?]\s*/).filter(s => s.trim() !== '');
+                        if (sentences.length > 2) {
+                            result = "Özet: " + sentences.slice(0, 2).join('. ') + (sentences.length > 2 ? '...' : '');
+                        } else {
+                            result = "Özet: " + feedbackText.substring(0, Math.min(feedbackText.length, 150)) + (feedbackText.length > 150 ? '...' : '');
+                        }
+                        break;
+                    case 'keywords':
+                        // AI CONCEPT: Simulate keyword extraction by finding common, longer words
+                        const words = feedbackText.toLowerCase().replace(/[.,!?;:]/g, '').split(/\s+/).filter(w => w.length > 3 && !['ve', 'ile', 'bir', 'çok', 'ama', 'için', 'bu', 'da', 'de', 'ki', 'mi', 'ne'].includes(w));
+                        const uniqueWords = [...new Set(words)];
+                        result = "Anahtar Kelimeler: " + uniqueWords.slice(0, 5).join(', ') + (uniqueWords.length > 5 ? '...' : '');
+                        break;
+                    default:
+                        result = "Geçersiz AI görevi seçildi.";
+                }
+                outputDiv.innerHTML = result;
+            }, 1000); // Simulate network delay for AI processing
+        }
+    </script>
+</body>
+</html>
